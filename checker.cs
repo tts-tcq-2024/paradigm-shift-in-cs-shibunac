@@ -4,36 +4,53 @@ namespace paradigm_shift_csharp
 {
 class Checker
 {
-    static bool batteryIsOk(float temperature, float soc, float chargeRate) {
-        if(temperature < 0 || temperature > 45) {
-            Console.WriteLine("Temperature is out of range!");
-            return false;
-        } else if(soc < 20 || soc > 80) {
-            Console.WriteLine("State of Charge is out of range!");
-            return false;
-        } else if(chargeRate > 0.8) {
-            Console.WriteLine("Charge Rate is out of range!");
+    const float TEMP_MIN = 0;
+    const float TEMP_MAX = 45;
+    const float SOC_MIN = 20;
+    const float SOC_MAX = 80;
+    const float CHARGERATE_MIN = 0.8;
+    const string INVALID_RANGE = "out of range";
+    
+
+    static bool isTemperatureOk(float temperature, out string meassage){
+        if (temperature < TEMP_MIN || temperature > TEMP_MAX) 
+        {
+            message = "Temperature" + INVALID_RANGE;
             return false;
         }
         return true;
     }
 
-    static void ExpectTrue(bool expression) {
-        if(!expression) {
-            Console.WriteLine("Expected true, but got false");
-            Environment.Exit(1);
+    static bool isSoCOk(float soc, out string meassage){
+        if (soc < SOC_MIN || soc > SOC_MAX) 
+        {
+            message = "State of Charge" + INVALID_RANGE;
+            return false;
         }
+        return true;
     }
-    static void ExpectFalse(bool expression) {
-        if(expression) {
-            Console.WriteLine("Expected false, but got true");
-            Environment.Exit(1);
+
+    static bool isChargeRateOk(float chargeRate, out string meassage){
+        if (chargeRate > CHARGERATE_MIN) 
+        {
+            message = "Charge Rate" + INVALID_RANGE;
+            return false;
         }
+        return true;
     }
-    static int Main() {
-        ExpectTrue(batteryIsOk(25, 70, 0.7f));
-        ExpectFalse(batteryIsOk(50, 85, 0.0f));
-        Console.WriteLine("All ok");
+        
+    static bool isBatteryOk(float temperature, float soc, float chargeRate){
+        bool tempCheck = isTemperatureOk(temperature);
+        bool socCheck = isSoCOk(soc);
+        bool chargeRateCheck = isChargeRateOk(chargeRate);
+
+        return tempCheck && socCheck && chargeRateCheck;
+    }  
+    
+    }
+    static int RunTest() {
+        AssertTrue(isBatteryOk(25, 70, 0.7f));
+        AssertFalse(isBatteryOk(50, 85, 0.0f));
         return 0;
     }
     
