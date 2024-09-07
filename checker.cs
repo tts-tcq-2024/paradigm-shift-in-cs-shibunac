@@ -48,7 +48,7 @@ class Checker
     }  
     
     }
-    static int Main() {
+    static int RunTest() {
         AssertTrue(isBatteryOk(25, 70, 0.7f));
         AssertFalse(isBatteryOk(50, 85, 0.0f));
         return 0;
