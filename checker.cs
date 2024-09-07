@@ -9,19 +9,34 @@ class Checker
     const float SOC_MIN = 20;
     const float SOC_MAX = 80;
     const float CHARGERATE_MIN = 0.8;
-    const string INVALID_RANGE = "Out of Range";
+    const string INVALID_RANGE = "out of range";
     
 
-    static bool isTemperatureOk(float temperature){
-        return (temperature < 0 || temperature > 45) ? false : true;
+    static bool isTemperatureOk(float temperature, out string meassage){
+        if (temperature < TEMP_MIN || temperature > TEMP_MAX) 
+        {
+            message = "Temperature" + INVALID_RANGE;
+            return false;
+        }
+        return true;
     }
 
-    static bool isSoCOk(float soc){
-        return (soc < 20 || soc > 80) ? false : true;
+    static bool isSoCOk(float soc, out string meassage){
+        if (soc < SOC_MIN || soc > SOC_MAX) 
+        {
+            message = "State of Charge" + INVALID_RANGE;
+            return false;
+        }
+        return true;
     }
 
-    static bool isChargeRateOk(float chargeRate){
-        return (chargeRate > 0.8) ? false : true
+    static bool isChargeRateOk(float chargeRate, out string meassage){
+        if (chargeRate > CHARGERATE_MIN) 
+        {
+            message = "Charge Rate" + INVALID_RANGE;
+            return false;
+        }
+        return true;
     }
         
     static bool isBatteryOk(float temperature, float soc, float chargeRate){
@@ -30,27 +45,12 @@ class Checker
         bool chargeRateCheck = isChargeRateOk(chargeRate);
 
         return tempCheck && socCheck && chargeRateCheck;
-    }   
-
-    static string DisplayMessage(){
-        
-    }
+    }  
     
-    static void ExpectTrue(bool expression) {
-        if(!expression) {
-            Console.WriteLine("Expected true, but got false");
-            Environment.Exit(1);
-        }
-    }
-    static void ExpectFalse(bool expression) {
-        if(expression) {
-            Console.WriteLine("Expected false, but got true");
-            Environment.Exit(1);
-        }
     }
     static int Main() {
-        ExpectTrue(batteryIsOk(25, 70, 0.7f));
-        ExpectFalse(batteryIsOk(50, 85, 0.0f));
+        AssertTrue(batteryIsOk(25, 70, 0.7f));
+        AssertFalse(batteryIsOk(50, 85, 0.0f));
         Console.WriteLine("All ok");
         return 0;
     }
