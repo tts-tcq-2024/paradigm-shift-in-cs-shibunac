@@ -49,9 +49,8 @@ class Checker
     
     }
     static int Main() {
-        AssertTrue(batteryIsOk(25, 70, 0.7f));
-        AssertFalse(batteryIsOk(50, 85, 0.0f));
-        Console.WriteLine("All ok");
+        AssertTrue(isBatteryOk(25, 70, 0.7f));
+        AssertFalse(isBatteryOk(50, 85, 0.0f));
         return 0;
     }
     
