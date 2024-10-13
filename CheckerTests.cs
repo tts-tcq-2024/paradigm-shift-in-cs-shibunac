@@ -13,7 +13,7 @@ namespace paradigm_shift_csharp.Tests
         public void IsTemperatureOk_Test(float temperature, bool expectedValidity, string expectedMessage)
         {
             string message;
-            bool isValid = Checker.isTemperatureOk(temperature, out message);
+            bool isValid = TemperatureChecker.isTemperatureOk(temperature, out message);
 
             Assert.Equal(expectedValidity, isValid);
             Assert.Equal(expectedMessage, message);
@@ -28,7 +28,7 @@ namespace paradigm_shift_csharp.Tests
         public void IsSoCOk_Test(float soc, bool expectedValidity, string expectedMessage)
         {
             string message;
-            bool isValid = Checker.isSoCOk(soc, out message);
+            bool isValid = SoCChecker.isSoCOk(soc, out message);
 
             Assert.Equal(expectedValidity, isValid);
             Assert.Equal(expectedMessage, message);
@@ -43,7 +43,7 @@ namespace paradigm_shift_csharp.Tests
         public void IsChargeRateOk_Test(float chargeRate, bool expectedValidity, string expectedMessage)
         {
             string message;
-            bool isValid = Checker.isChargeRateOk(chargeRate, out message);
+            bool isValid = ChargeRateChecker.isChargeRateOk(chargeRate, out message);
 
             Assert.Equal(expectedValidity, isValid);
             Assert.Equal(expectedMessage, message);
@@ -58,7 +58,7 @@ namespace paradigm_shift_csharp.Tests
         public void IsBatteryOk_Test(float temperature, float soc, float chargeRate, bool expectedValidity, string expectedMessage)
         {
             string message;
-            bool isValid = Checker.isBatteryOk(temperature, soc, chargeRate, out message);
+            bool isValid = BatteryChecker.isBatteryOk(temperature, soc, chargeRate, out message);
 
             Assert.Equal(expectedValidity, isValid);
             Assert.Equal(expectedMessage, message);
