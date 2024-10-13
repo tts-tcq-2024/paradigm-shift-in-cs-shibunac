@@ -88,15 +88,5 @@ namespace paradigm_shift_csharp
             return true;
         }
 
-
-        static void Main(string[] args)
-        {
-            CheckerTests test = new CheckerTests();
-            test.IsTemperatureOk_Test();
-            test.IsSoCOk_Test();
-            test.IsChargeRateOk_Test();
-            test.IsBatteryOk_Test();
-            Console.WriteLine("All tests passed.");
-        }
     }
 }
