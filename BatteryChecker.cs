@@ -8,16 +8,14 @@ public class BatteryChecker
         bool socCheck = SoCChecker.IsSoCOk(soc, out socMessage);
         bool chargeRateCheck = ChargeRateChecker.IsChargeRateOk(chargeRate, out chargeRateMessage);
 
+        errorMessage = tempMessage ?? socMessage ?? chargeRateMessage;
         // Consolidated check for errors in one method call
-        return ValidateBatteryParameters(tempCheck, socCheck, chargeRateCheck, tempMessage, socMessage, chargeRateMessage, out errorMessage);
+        return ValidateBatteryParameters(tempCheck, socCheck, chargeRateCheck);
     }
 
-    public static bool ValidateBatteryParameters(bool tempCheck, bool socCheck, bool chargeRateCheck, 
-                                                 string tempMessage, string socMessage, string chargeRateMessage, 
-                                                 out string errorMessage)
+    public static bool ValidateBatteryParameters(bool tempCheck, bool socCheck, bool chargeRateCheck)
     {
         // Use a single check by grouping the messages
-        errorMessage = tempMessage ?? socMessage ?? chargeRateMessage;
         return tempCheck && socCheck && chargeRateCheck;
     }
 }
