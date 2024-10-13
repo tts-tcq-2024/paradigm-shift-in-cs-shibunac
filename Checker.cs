@@ -16,7 +16,7 @@ namespace paradigm_shift_csharp
         const string WARNING_APPROACHING_LOW = "Approaching lower limit of ";
         const string WARNING_APPROACHING_HIGH = "Approaching upper limit of ";
 
-        static bool CheckRange(float value, float min, float max, string parameter, out string message)
+        private static bool CheckRange(float value, float min, float max, string parameter, out string message)
         {
             if (value < min || value > max)
             {
@@ -27,7 +27,7 @@ namespace paradigm_shift_csharp
             return true;
         }
 
-        static bool CheckWarningRange(float value, float min, float max, string parameter, out string message)
+        private static bool CheckWarningRange(float value, float min, float max, string parameter, out string message)
         {
             float warningTolerance = max * WARNING_TOLERANCE_PERCENT / 100;
 
@@ -46,7 +46,7 @@ namespace paradigm_shift_csharp
             return true;
         }
 
-        static bool isTemperatureOk(float temperature, out string message)
+        public static bool isTemperatureOk(float temperature, out string message)
         {
             if (!CheckRange(temperature, TEMP_MIN, TEMP_MAX, "Temperature", out message))
                 return false;
@@ -54,7 +54,7 @@ namespace paradigm_shift_csharp
             return CheckWarningRange(temperature, TEMP_MIN, TEMP_MAX, "Temperature", out message);
         }
 
-        static bool isSoCOk(float soc, out string message)
+        public static bool isSoCOk(float soc, out string message)
         {
             if (!CheckRange(soc, SOC_MIN, SOC_MAX, "State of Charge", out message))
                 return false;
@@ -62,7 +62,7 @@ namespace paradigm_shift_csharp
             return CheckWarningRange(soc, SOC_MIN, SOC_MAX, "State of Charge", out message);
         }
 
-        static bool isChargeRateOk(float chargeRate, out string message)
+        public static bool isChargeRateOk(float chargeRate, out string message)
         {
             if (!CheckRange(chargeRate, CHARGERATE_MIN, CHARGERATE_MAX, "Charge Rate", out message))
                 return false;
@@ -70,7 +70,7 @@ namespace paradigm_shift_csharp
             return CheckWarningRange(chargeRate, CHARGERATE_MIN, CHARGERATE_MAX, "Charge Rate", out message);
         }
 
-        static bool isBatteryOk(float temperature, float soc, float chargeRate, out string errorMessage)
+        public static bool isBatteryOk(float temperature, float soc, float chargeRate, out string errorMessage)
         {
             string tempMessage, socMessage, chargeRateMessage;
 
