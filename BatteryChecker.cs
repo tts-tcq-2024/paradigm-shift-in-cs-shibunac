@@ -8,7 +8,7 @@ public class BatteryChecker
         bool socCheck = SoCChecker.IsSoCOk(soc, out socMessage);
         bool chargeRateCheck = ChargeRateChecker.IsChargeRateOk(chargeRate, out chargeRateMessage);
 
-        // Pass the check results to the validation method
+        // Consolidated check for errors in one method call
         return ValidateBatteryParameters(tempCheck, socCheck, chargeRateCheck, tempMessage, socMessage, chargeRateMessage, out errorMessage);
     }
 
@@ -16,13 +16,8 @@ public class BatteryChecker
                                                  string tempMessage, string socMessage, string chargeRateMessage, 
                                                  out string errorMessage)
     {
-        if (!tempCheck || !socCheck || !chargeRateCheck)
-        {
-            errorMessage = tempMessage ?? socMessage ?? chargeRateMessage;  // Return the first error encountered
-            return false;
-        }
-
-        errorMessage = null;  // No errors
-        return true;
+        // Use a single check by grouping the messages
+        errorMessage = tempMessage ?? socMessage ?? chargeRateMessage;
+        return tempCheck && socCheck && chargeRateCheck;
     }
 }
