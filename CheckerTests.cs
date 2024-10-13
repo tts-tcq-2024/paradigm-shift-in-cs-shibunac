@@ -53,4 +53,15 @@ namespace paradigm_shift_csharp.Tests
         [InlineData(25, 70, 0.7f, true, null)] // All parameters within range
         [InlineData(21, 70, 0.7f, true, "Approaching lower limit of Temperature")] // Warning for low temperature
         [InlineData(25, 79, 0.7f, true, "Approaching upper limit of State of Charge")] // Warning for SoC high
-        [InlineData(25, 70, 0.77f, true, "Approaching upper li
+        [InlineData(25, 70, 0.77f, true, "Approaching upper limit of Charge Rate")] // Warning for charge rate
+        [InlineData(50, 85, 0.9f, false, "Temperature is out of range")] // Multiple errors, return first error
+        public void IsBatteryOk_Test(float temperature, float soc, float chargeRate, bool expectedValidity, string expectedMessage)
+        {
+            string message;
+            bool isValid = Checker.isBatteryOk(temperature, soc, chargeRate, out message);
+
+            Assert.Equal(expectedValidity, isValid);
+            Assert.Equal(expectedMessage, message);
+        }
+    }
+}
