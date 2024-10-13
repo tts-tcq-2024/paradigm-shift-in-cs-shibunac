@@ -8,7 +8,7 @@ public class BatteryChecker
         bool socCheck = SoCChecker.IsSoCOk(soc, out socMessage);
         bool chargeRateCheck = ChargeRateChecker.IsChargeRateOk(chargeRate, out chargeRateMessage);
 
-        errorMessage = ValidateBatteryParameters(float temperature, float soc, float chargeRate, out string errorMessage);
+        errorMessage = ValidateBatteryParameters(temperature, soc, chargeRate,errorMessage);
 
         errorMessage = tempMessage ?? socMessage ?? chargeRateMessage; // Return warning if exists
         return true;
