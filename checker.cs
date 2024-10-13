@@ -9,8 +9,12 @@ namespace paradigm_shift_csharp
         const float TEMP_MAX = 45;
         const float SOC_MIN = 20;
         const float SOC_MAX = 80;
-        const float CHARGERATE_MIN = 0.8f;
+        const float CHARGERATE_MIN = 0;
+        const float CHARGERATE_MAX = 0.8f;
+        const float WARNING_TOLERANCE_PERCENT = 5;
         const string INVALID_RANGE = " is out of range";
+        const string WARNING_APPROACHING_LOW = "Approaching lower limit of ";
+        const string WARNING_APPROACHING_HIGH = "Approaching upper limit of ";
 
         static bool CheckRange(float value, float min, float max, string parameter, out string message)
         {
@@ -23,19 +27,47 @@ namespace paradigm_shift_csharp
             return true;
         }
 
+        static bool CheckWarningRange(float value, float min, float max, string parameter, out string message)
+        {
+            float warningTolerance = max * WARNING_TOLERANCE_PERCENT / 100;
+
+            if (value >= min && value <= min + warningTolerance)
+            {
+                message = WARNING_APPROACHING_LOW + parameter;
+                return true;
+            }
+            else if (value >= max - warningTolerance && value <= max)
+            {
+                message = WARNING_APPROACHING_HIGH + parameter;
+                return true;
+            }
+
+            message = null;  // No warning, within safe range
+            return true;
+        }
+
         static bool isTemperatureOk(float temperature, out string message)
         {
-            return CheckRange(temperature, TEMP_MIN, TEMP_MAX, "Temperature", out message);
+            if (!CheckRange(temperature, TEMP_MIN, TEMP_MAX, "Temperature", out message))
+                return false;
+
+            return CheckWarningRange(temperature, TEMP_MIN, TEMP_MAX, "Temperature", out message);
         }
 
         static bool isSoCOk(float soc, out string message)
         {
-            return CheckRange(soc, SOC_MIN, SOC_MAX, "State of Charge", out message);
+            if (!CheckRange(soc, SOC_MIN, SOC_MAX, "State of Charge", out message))
+                return false;
+
+            return CheckWarningRange(soc, SOC_MIN, SOC_MAX, "State of Charge", out message);
         }
 
         static bool isChargeRateOk(float chargeRate, out string message)
         {
-            return CheckRange(chargeRate, 0, CHARGERATE_MIN, "Charge Rate", out message);
+            if (!CheckRange(chargeRate, CHARGERATE_MIN, CHARGERATE_MAX, "Charge Rate", out message))
+                return false;
+
+            return CheckWarningRange(chargeRate, CHARGERATE_MIN, CHARGERATE_MAX, "Charge Rate", out message);
         }
 
         static bool isBatteryOk(float temperature, float soc, float chargeRate, out string errorMessage)
@@ -52,7 +84,7 @@ namespace paradigm_shift_csharp
                 return false;
             }
 
-            errorMessage = null;
+            errorMessage = tempMessage ?? socMessage ?? chargeRateMessage; // Return warning if exists
             return true;
         }
 
@@ -70,8 +102,10 @@ namespace paradigm_shift_csharp
         {
             string errorMessage;
 
-            AssertTrue(isBatteryOk(25, 70, 0.7f, out errorMessage));  
-            AssertFalse(isBatteryOk(50, 85, 0.0f, out errorMessage));  
+            AssertTrue(isBatteryOk(25, 70, 0.7f, out errorMessage));  // Within normal range
+            AssertTrue(isBatteryOk(21, 70, 0.7f, out errorMessage));  // Approaching low SoC
+            AssertTrue(isBatteryOk(79, 70, 0.7f, out errorMessage));  // Approaching high SoC
+            AssertFalse(isBatteryOk(50, 85, 0.0f, out errorMessage)); // Outside valid range
             return 0;
         }
 
