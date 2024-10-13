@@ -2,19 +2,23 @@ public class BatteryChecker
 {
     public static bool IsBatteryOk(float temperature, float soc, float chargeRate, out string errorMessage)
     {
-        string tempMessage, socMessage, chargeRateMessage;
+        // Validate each parameter and get the corresponding error or warning message
+        string tempMessage = ValidateParameter(TemperatureChecker.IsTemperatureOk, temperature);
+        string socMessage = ValidateParameter(SoCChecker.IsSoCOk, soc);
+        string chargeRateMessage = ValidateParameter(ChargeRateChecker.IsChargeRateOk, chargeRate);
 
-        bool tempCheck = TemperatureChecker.IsTemperatureOk(temperature, out tempMessage);
-        bool socCheck = SoCChecker.IsSoCOk(soc, out socMessage);
-        bool chargeRateCheck = ChargeRateChecker.IsChargeRateOk(chargeRate, out chargeRateMessage);
+        // Determine if any of the checks failed, and return the first error encountered
+        errorMessage = tempMessage ?? socMessage ?? chargeRateMessage;
 
-        if (!tempCheck || !socCheck || !chargeRateCheck)
-        {
-            errorMessage = tempMessage ?? socMessage ?? chargeRateMessage;  // Return the first error encountered
-            return false;
-        }
+        // Return false if any of the checks failed, true otherwise
+        return errorMessage == null;
+    }
 
-        errorMessage = tempMessage ?? socMessage ?? chargeRateMessage; // Return warning if exists
-        return true;
+    // Helper method to validate parameters and return the error/warning message
+    private static string ValidateParameter(Func<float, out string, bool> checkerFunction, float value)
+    {
+        string message;
+        checkerFunction(value, out message);  // Call the checker function
+        return message;  // Return the message (null if valid, otherwise error or warning)
     }
 }
