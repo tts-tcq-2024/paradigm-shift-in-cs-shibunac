@@ -95,7 +95,7 @@ namespace paradigm_shift_csharp
             test.IsTemperatureOk_Test();
             test.IsSoCOk_Test();
             test.IsChargeRateOk_Test();
-            test.IsBatteryOk_Test()
+            test.IsBatteryOk_Test();
             Console.WriteLine("All tests passed.");
         }
     }
