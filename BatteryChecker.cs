@@ -1,21 +1,20 @@
-// Define a delegate that matches the checking method signature.
-public delegate bool CheckerFunction(float value, out string message);
-
 public class BatteryChecker
 {
     public static bool IsBatteryOk(float temperature, float soc, float chargeRate, out string errorMessage)
     {
-        errorMessage = ValidateParameter(TemperatureChecker.IsTemperatureOk, temperature) ??
-                       ValidateParameter(SoCChecker.IsSoCOk, soc) ??
-                       ValidateParameter(ChargeRateChecker.IsChargeRateOk, chargeRate);
+        string tempMessage, socMessage, chargeRateMessage;
 
-        return errorMessage == null;
-    }
+        bool tempCheck = TemperatureChecker.IsTemperatureOk(temperature, out tempMessage);
+        bool socCheck = SoCChecker.IsSoCOk(soc, out socMessage);
+        bool chargeRateCheck = ChargeRateChecker.IsChargeRateOk(chargeRate, out chargeRateMessage);
 
-    private static string ValidateParameter(CheckerFunction checkerFunction, float value)
-    {
-        string message;
-        bool isValid = checkerFunction(value, out message);
-        return isValid ? null : message; // Return either null (if valid) or the error/warning message.
+        if (!tempCheck || !socCheck || !chargeRateCheck)
+        {
+            errorMessage = tempMessage ?? socMessage ?? chargeRateMessage;  // Return the first error encountered
+            return false;
+        }
+
+        errorMessage = tempMessage ?? socMessage ?? chargeRateMessage; // Return warning if exists
+        return true;
     }
 }
