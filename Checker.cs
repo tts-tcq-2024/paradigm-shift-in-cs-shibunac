@@ -88,30 +88,14 @@ namespace paradigm_shift_csharp
             return true;
         }
 
-        static void AssertTrue(bool condition)
-        {
-            Debug.Assert(condition, "Test failed: expected true");
-        }
-
-        static void AssertFalse(bool condition)
-        {
-            Debug.Assert(!condition, "Test failed: expected false");
-        }
-
-        static int RunTest()
-        {
-            string errorMessage;
-
-            AssertTrue(isBatteryOk(25, 70, 0.7f, out errorMessage));  // Within normal range
-            AssertTrue(isBatteryOk(21, 70, 0.7f, out errorMessage));  // Approaching low SoC
-            AssertTrue(isBatteryOk(79, 70, 0.7f, out errorMessage));  // Approaching high SoC
-            AssertFalse(isBatteryOk(50, 85, 0.0f, out errorMessage)); // Outside valid range
-            return 0;
-        }
 
         static void Main(string[] args)
         {
-            RunTest();
+            CheckerTests test = new CheckerTests();
+            test.IsTemperatureOk_Test();
+            test.IsSoCOk_Test();
+            test.IsChargeRateOk_Test();
+            test.IsBatteryOk_Test()
             Console.WriteLine("All tests passed.");
         }
     }
