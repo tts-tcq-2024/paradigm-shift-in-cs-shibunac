@@ -2,25 +2,24 @@ public class BatteryChecker
 {
     public static bool IsBatteryOk(float temperature, float soc, float chargeRate, out string errorMessage)
     {
-        // Array of tuples containing the checker function and corresponding value to check
-        var checks = new (Func<float, out string, bool> checker, float value)[]
-        {
-            (TemperatureChecker.IsTemperatureOk, temperature),
-            (SoCChecker.IsSoCOk, soc),
-            (ChargeRateChecker.IsChargeRateOk, chargeRate)
-        };
+        string tempMessage, socMessage, chargeRateMessage;
 
-        // Iterate over each check and return the first error message encountered
-        foreach (var (checker, value) in checks)
-        {
-            if (!checker(value, out errorMessage))  // If check fails, return the error message
-            {
-                return false;
-            }
-        }
+        bool tempCheck = TemperatureChecker.IsTemperatureOk(temperature, out tempMessage);
+        bool socCheck = SoCChecker.IsSoCOk(soc, out socMessage);
+        bool chargeRateCheck = ChargeRateChecker.IsChargeRateOk(chargeRate, out chargeRateMessage);
 
-        // If all checks passed, return null for errorMessage and true
-        errorMessage = null;
+        errorMessage = ValidateBatteryParameters(float temperature, float soc, float chargeRate, out string errorMessage);
+
+        errorMessage = tempMessage ?? socMessage ?? chargeRateMessage; // Return warning if exists
         return true;
+    }
+
+    public static bool ValidateBatteryParameters(float temperature, float soc, float chargeRate, out string errorMessage)
+    {
+        if (!tempCheck || !socCheck || !chargeRateCheck)
+        {
+            errorMessage = tempMessage ?? socMessage ?? chargeRateMessage;  // Return the first error encountered
+            return false;
+        }
     }
 }
