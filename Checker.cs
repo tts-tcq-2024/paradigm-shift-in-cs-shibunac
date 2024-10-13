@@ -70,30 +70,22 @@ namespace paradigm_shift_csharp
             return CheckWarningRange(chargeRate, CHARGERATE_MIN, CHARGERATE_MAX, "Charge Rate", out message);
         }
 
-        public static bool isBatteryOk(float temperature, float soc, float chargeRate, out string errorMessage)
+         public static bool isBatteryOk(float temperature, float soc, float chargeRate, out string errorMessage)
         {
-            errorMessage = GetValidationMessage("Temperature", isTemperatureOk, temperature);
-            if (errorMessage != null) return false;
-        
-            errorMessage = GetValidationMessage("State of Charge", isSoCOk, soc);
-            if (errorMessage != null) return false;
-        
-            errorMessage = GetValidationMessage("Charge Rate", isChargeRateOk, chargeRate);
-            if (errorMessage != null) return false;
-        
+            string tempMessage, socMessage, chargeRateMessage;
+
+            bool tempCheck = isTemperatureOk(temperature, out tempMessage);
+            bool socCheck = isSoCOk(soc, out socMessage);
+            bool chargeRateCheck = isChargeRateOk(chargeRate, out chargeRateMessage);
+
+            if (!tempCheck || !socCheck || !chargeRateCheck)
+            {
+                errorMessage = tempMessage ?? socMessage ?? chargeRateMessage;  // Return the first error encountered
+                return false;
+            }
+
+            errorMessage = tempMessage ?? socMessage ?? chargeRateMessage; // Return warning if exists
             return true;
         }
-        
-        private static string GetValidationMessage(string parameterName, Func<float, out string, bool> validationFunc, float value)
-        {
-            string message;
-            bool isValid = validationFunc(value, out message);
-            if (!isValid)
-            {
-                return $"{parameterName}: {message}";
-            }
-            return message; // This could either be null (if valid) or a warning message.
-        }
-
     }
 }
