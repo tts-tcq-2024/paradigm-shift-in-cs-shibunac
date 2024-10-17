@@ -1,6 +1,6 @@
 public class BatteryChecker
 {
-    public static bool IsBatteryOk(float temperature, float soc, float chargeRate, out string errorMessage)
+    public static bool ValidateBatteryHealth(float temperature, float soc, float chargeRate, out string errorMessage)
     {
         string tempMessage, socMessage, chargeRateMessage;
 
