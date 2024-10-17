@@ -4,7 +4,7 @@ public class SoCChecker
     private const float SOC_MAX = 80;
     private const float WARNING_TOLERANCE_PERCENT = 5;
 
-    public static bool IsSoCOk(float soc, out string message)
+    public static bool ValidateSoC(float soc, out string message)
     {
         if (!CheckRange(soc, SOC_MIN, SOC_MAX, "State of Charge", out message))
             return false;
