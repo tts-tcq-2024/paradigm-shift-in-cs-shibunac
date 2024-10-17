@@ -4,7 +4,7 @@ public class ChargeRateChecker
     private const float CHARGERATE_MAX = 0.8f;
     private const float WARNING_TOLERANCE_PERCENT = 5;
 
-    public static bool ValidateChargeRateHealth(float chargeRate, out string message)
+    public static bool ValidateChargeRate(float chargeRate, out string message)
     {
         if (!CheckRange(chargeRate, CHARGERATE_MIN, CHARGERATE_MAX, "Charge Rate", out message))
             return false;
