@@ -13,7 +13,7 @@ namespace paradigm_shift_csharp.Tests
         public void IsTemperatureWithinRange_Test(float temperature, bool expectedValidity, string expectedMessage)
         {
             string message;
-            bool isValid = TemperatureChecker.IsTemperatureOk(temperature, out message);
+            bool isValid = TemperatureChecker.ValidateTemperature(temperature, out message);
 
             Assert.Equal(expectedValidity, isValid);
             Assert.Equal(expectedMessage, message);
@@ -28,7 +28,7 @@ namespace paradigm_shift_csharp.Tests
         public void IsSoCWithinRange_Test(float soc, bool expectedValidity, string expectedMessage)
         {
             string message;
-            bool isValid = SoCChecker.IsSoCOk(soc, out message);
+            bool isValid = SoCChecker.ValidateSoC(soc, out message);
 
             Assert.Equal(expectedValidity, isValid);
             Assert.Equal(expectedMessage, message);
@@ -43,7 +43,7 @@ namespace paradigm_shift_csharp.Tests
         public void IsChargeRateWithinRange_Test(float chargeRate, bool expectedValidity, string expectedMessage)
         {
             string message;
-            bool isValid = ChargeRateChecker.ValidateChargeRateHealth(chargeRate, out message);
+            bool isValid = ChargeRateChecker.ValidateChargeRate(chargeRate, out message);
 
             Assert.Equal(expectedValidity, isValid);
             Assert.Equal(expectedMessage, message);
