@@ -4,9 +4,9 @@ public class BatteryChecker
     {
         string tempMessage, socMessage, chargeRateMessage;
 
-        bool tempCheck = TemperatureChecker.IsTemperatureOk(temperature, out tempMessage);
-        bool socCheck = SoCChecker.IsSoCOk(soc, out socMessage);
-        bool chargeRateCheck = ChargeRateChecker.IsChargeRateOk(chargeRate, out chargeRateMessage);
+        bool tempCheck = TemperatureChecker.ValidateTemperature(temperature, out tempMessage);
+        bool socCheck = SoCChecker.ValidateSoC(soc, out socMessage);
+        bool chargeRateCheck = ChargeRateChecker.ValidateChargeRate(chargeRate, out chargeRateMessage);
 
         errorMessage = tempMessage ?? socMessage ?? chargeRateMessage;
         return ValidateBatteryParameters(tempCheck, socCheck, chargeRateCheck);
