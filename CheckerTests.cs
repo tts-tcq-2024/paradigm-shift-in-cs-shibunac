@@ -58,7 +58,7 @@ namespace paradigm_shift_csharp.Tests
         public void IsBatteryWithinRange_Test(float temperature, float soc, float chargeRate, bool expectedValidity, string expectedMessage)
         {
             string message;
-            bool isValid = BatteryChecker.IsBatteryOk(temperature, soc, chargeRate, out message);
+            bool isValid = BatteryChecker.ValidateBatteryHealth(temperature, soc, chargeRate, out message);
 
             Assert.Equal(expectedValidity, isValid);
             Assert.Equal(expectedMessage, message);
