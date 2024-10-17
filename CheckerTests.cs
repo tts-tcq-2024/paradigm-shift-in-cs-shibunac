@@ -43,7 +43,7 @@ namespace paradigm_shift_csharp.Tests
         public void IsChargeRateWithinRange_Test(float chargeRate, bool expectedValidity, string expectedMessage)
         {
             string message;
-            bool isValid = ChargeRateChecker.IsChargeRateOk(chargeRate, out message);
+            bool isValid = ChargeRateChecker.ValidateChargeRateHealth(chargeRate, out message);
 
             Assert.Equal(expectedValidity, isValid);
             Assert.Equal(expectedMessage, message);
