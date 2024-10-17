@@ -4,7 +4,7 @@ public class TemperatureChecker
     private const float TEMP_MAX = 45;
     private const float WARNING_TOLERANCE_PERCENT = 5;
 
-    public static bool IsTemperatureOk(float temperature, out string message)
+    public static bool ValidateTemperature(float temperature, out string message)
     {
         if (!CheckRange(temperature, TEMP_MIN, TEMP_MAX, "Temperature", out message))
             return false;
