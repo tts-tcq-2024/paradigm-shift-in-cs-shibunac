@@ -62,7 +62,7 @@ Shorten the Semantic distance
 
 ## Implementation
 
-# BatteryChecker Class
+### BatteryChecker Class
 Purpose:
 The BatteryChecker class validates the overall health of a battery by checking its temperature, state of charge (SoC), and charge rate.
 
@@ -77,7 +77,7 @@ Outputs an error message detailing which parameter failed validation.
 Helper method that checks if all passed validation flags are true.
 Returns true if all parameters are valid, otherwise false.
 
-# ChargeRateChecker Class
+### ChargeRateChecker Class
 Purpose:
 The ChargeRateChecker class validates the charge rate of a battery, ensuring it falls within acceptable limits.
 
@@ -91,7 +91,7 @@ Utilizes WarningRangeChecker to determine if the charge rate approaches warning 
 2) CheckRange(float value, float min, float max, string parameter, out string message):
 Checks if a given value is within a specified range and outputs an appropriate message.
 
-# SoCChecker Class
+### SoCChecker Class
 Purpose:
 The SoCChecker class validates the state of charge (SoC) of a battery.
 
@@ -103,7 +103,7 @@ Utilizes WarningRangeChecker to check for warnings.
 2) CheckRange(float value, float min, float max, string parameter, out string message):
 Similar to ChargeRateChecker, checks if a value is within the acceptable range.
 
-# TemperatureChecker Class
+### TemperatureChecker Class
 Purpose:
 The TemperatureChecker class validates the operating temperature of the battery.
 
@@ -115,7 +115,7 @@ Uses WarningRangeChecker to check for proximity to warning thresholds.
 2) CheckRange(float value, float min, float max, string parameter, out string message):
 Validates if the temperature falls within acceptable limits.
 
-# WarningRangeChecker Class
+### WarningRangeChecker Class
 Purpose:
 The WarningRangeChecker class checks if a value approaches the defined warning limits for various parameters.
 
