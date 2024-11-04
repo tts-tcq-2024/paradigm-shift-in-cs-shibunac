@@ -62,4 +62,69 @@ Shorten the Semantic distance
 
 ## Implementation
 
+# BatteryChecker Class
+Purpose:
+The BatteryChecker class validates the overall health of a battery by checking its temperature, state of charge (SoC), and charge rate.
+
+Methods:
+
+1) ValidateBatteryHealth(float temperature, float soc, float chargeRate, out string errorMessage):
+Validates the battery's temperature, SoC, and charge rate.
+Returns true if all checks are within valid ranges, otherwise returns false.
+Outputs an error message detailing which parameter failed validation.
+
+2) ValidateBatteryParameters(bool tempCheck, bool socCheck, bool chargeRateCheck):
+Helper method that checks if all passed validation flags are true.
+Returns true if all parameters are valid, otherwise false.
+
+# ChargeRateChecker Class
+Purpose:
+The ChargeRateChecker class validates the charge rate of a battery, ensuring it falls within acceptable limits.
+
+Methods:
+
+1) ValidateChargeRate(float chargeRate, out string message):
+Checks if the charge rate is within the valid range.
+Uses CheckRange to validate the value.
+Utilizes WarningRangeChecker to determine if the charge rate approaches warning limits.
+
+2) CheckRange(float value, float min, float max, string parameter, out string message):
+Checks if a given value is within a specified range and outputs an appropriate message.
+
+# SoCChecker Class
+Purpose:
+The SoCChecker class validates the state of charge (SoC) of a battery.
+
+Methods:
+
+1) ValidateSoC(float soc, out string message):
+Validates the SoC value against defined limits.
+Utilizes WarningRangeChecker to check for warnings.
+2) CheckRange(float value, float min, float max, string parameter, out string message):
+Similar to ChargeRateChecker, checks if a value is within the acceptable range.
+
+# TemperatureChecker Class
+Purpose:
+The TemperatureChecker class validates the operating temperature of the battery.
+
+Methods:
+
+1) ValidateTemperature(float temperature, out string message):
+Checks if the temperature is within the valid range.
+Uses WarningRangeChecker to check for proximity to warning thresholds.
+2) CheckRange(float value, float min, float max, string parameter, out string message):
+Validates if the temperature falls within acceptable limits.
+
+# WarningRangeChecker Class
+Purpose:
+The WarningRangeChecker class checks if a value approaches the defined warning limits for various parameters.
+
+Methods:
+
+1) CheckWarningRange(float value, float min, float max, string parameter, out string message):
+Determines if a value is approaching either the minimum or maximum warning thresholds.
+2) CheckMinWarning(float value, float min, float warningTolerance, string parameter, out string message):
+Checks if a value is near the lower limit and outputs a warning message if so.
+3) CheckMaxWarning(float value, float max, float warningTolerance, string parameter, out string message):
+Checks if a value is near the upper limit and outputs a warning message if so.
 
